@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Deque Report Splitter</title>
+    <link rel="stylesheet" href="./assets/css/styles.css" />
+  </head>
+  <body>
+    <header class="page-header">
+      <h1>Deque Report Splitter</h1>
+      <p class="subtitle">
+        Upload a CSV export, choose how to bundle the issues, and download
+        ticket-ready Title + Description rows.
+      </p>
+    </header>
+    <main>
+      <section class="card">
+        <h2>1. Upload CSV export</h2>
+        <div class="upload-row">
+          <label class="file-upload">
+            <input
+              type="file"
+              id="reportFile"
+              accept=".csv,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            />
+            <span>Select CSV or XLSX file</span>
+          </label>
+          <div
+            id="fileInfo"
+            class="file-info status status-muted"
+            title="No file selected."
+          >
+            No file selected.
+          </div>
+        </div>
+        <p class="help-text">
+          Expected columns:&nbsp;
+          Source.Name, Rule ID, Description, Help, Help URL, Impact, Manual,
+          Needs Review, IGT, Selector, Summary, Source Code, Tags, Found By,
+          Test Title, Test URL, Share URL, Created At, Screenshot URL.
+        </p>
+      </section>
+
+      <section class="card">
+        <h2>2. Ticket output</h2>
+        <div class="chunk-options">
+          <label class="radio-option">
+            <input
+              type="radio"
+              name="chunkMode"
+              value="chunks"
+              checked
+            />
+            <div>
+              <span class="radio-title">Split into multiple tickets</span>
+              <span class="radio-help"
+                >Create one ticket per chunk using the size below.</span
+              >
+            </div>
+          </label>
+          <label class="radio-option">
+            <input type="radio" name="chunkMode" value="single" />
+            <div>
+              <span class="radio-title">Combine everything into one ticket</span>
+              <span class="radio-help"
+                >All issues will be merged into a single description.</span
+              >
+            </div>
+          </label>
+        </div>
+        <label class="field issues-field">
+          <span class="field-label">Issues per ticket</span>
+          <input
+            type="number"
+            id="issuesPerTicket"
+            min="1"
+            value="10"
+            step="1"
+          />
+        </label>
+      </section>
+
+      <section class="card">
+        <h2>3. Select columns</h2>
+        <p class="help-text">
+          All columns from the upload are enabled by default. Toggle to choose
+          which fields appear inside each ticket description.
+        </p>
+        <div id="columnsContainer" class="columns-container">
+          <div class="status status-muted">Upload a file to see columns.</div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>4. Generate CSV</h2>
+        <button id="generateBtn" class="primary-btn" disabled>
+          Generate CSV
+        </button>
+        <div id="generateStatus" class="status status-muted">
+          Waiting for file upload.
+        </div>
+        <div id="downloadsContainer" class="downloads"></div>
+      </section>
+
+      <section class="card">
+        <h2>5. Preview first ticket</h2>
+        <div id="preview" class="preview-table-wrapper">
+          <div class="status status-muted">
+            Upload a file to see the preview.
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="page-footer">
+      <p>
+        Need custom logic? Drop it into
+        <code>assets/js/modules/filters.js</code> and re-deploy.
+      </p>
+    </footer>
+
+    <script src="./assets/js/vendor/xlsx.full.min.js"></script>
+    <script type="module" src="./assets/js/app.js"></script>
+  </body>
+</html>
