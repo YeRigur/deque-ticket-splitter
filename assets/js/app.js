@@ -350,9 +350,11 @@ window.addEventListener("beforeunload", () => {
 
 function isXLSXFile(file) {
   const name = file.name.toLowerCase();
-  const type = file.type || "";
+  const type = (file.type || "").toLowerCase();
   return (
     name.endsWith(".xlsx") ||
+    type === "application/xlsx" ||
+    type === "application/vnd.ms-excel" ||
     type ===
       "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
     type.includes("spreadsheetml")
@@ -360,10 +362,16 @@ function isXLSXFile(file) {
 }
 
 function parseFile(file) {
+  const name = file.name.toLowerCase();
   if (isXLSXFile(file)) {
     return readFileAsArrayBuffer(file).then((buffer) => parseXLSX(buffer));
   }
-  return readFileAsText(file).then((text) => parseCSV(text));
+
+  if (name.endsWith(".csv") || (file.type || "").toLowerCase().includes("csv")) {
+    return readFileAsText(file).then((text) => parseCSV(text));
+  }
+
+  throw new Error("Unsupported file type. Please upload a CSV or XLSX file.");
 }
 
 function readFileAsText(file) {

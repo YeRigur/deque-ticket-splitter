@@ -1,6 +1,6 @@
 # Deque Report Splitter (static UI)
 
-Static HTML/JS tool that lets you upload a Deque accessibility export, choose how to bundle the issues, and download a CSV with ticket-ready Title/Description fields.
+Static HTML/JS tool that lets you upload a Deque accessibility export in CSV or XLSX format, choose how to bundle the issues, and download a CSV with ticket-ready Title/Description fields.
 
 ## Quick start
 
@@ -17,3 +17,7 @@ Static HTML/JS tool that lets you upload a Deque accessibility export, choose ho
 - XLSX uploads rely on the bundled SheetJS build in `assets/js/vendor/xlsx.full.min.js`. Update that file if you want a newer release.
 
 Once you're happy, commit the folder as-is to a GitHub repository and enable GitHub Pages (or any static hosting) so others can use it directly in the browser.
+
+## GitHub Pages
+
+This repository includes a GitHub Actions workflow at `.github/workflows/deploy-pages.yml` that deploys the static app to GitHub Pages on every push to `main`.
